@@ -1,0 +1,26 @@
+{
+  "name": "acs",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "./node_modules/mocha/bin/mocha",
+    "lint": "./node_modules/eslint/bin/eslint.js bin/* lib/*.js lib/**/*.js test/*.js test/**/*.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "chai": "^3.5.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "ejs": "~2.4.1",
+    "eslint": "^3.6.1",
+    "eslint-config-rapid7": "^1.1.1",
+    "express": "~4.13.4",
+    "mocha": "^3.1.0",
+    "morgan": "~1.7.0",
+    "nconf": "^0.8.4",
+    "node-uuid": "^1.4.7",
+    "serve-favicon": "~2.3.0",
+    "vaulted": "github:chiefy/vaulted"
+  }
+}
