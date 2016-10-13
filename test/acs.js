@@ -1,9 +1,9 @@
 'use strict';
 
-var request = require('supertest');
-var express = require('express');
-var should = require('chai').should();
-var app = express();
+const request = require('supertest');
+const express = require('express');
+const should = require('chai').should();
+const app = express();
 
 describe('POST encrypt/get_ct_json', function() {
   it('responds with a json error', function() {
