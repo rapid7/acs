@@ -37,6 +37,11 @@ ACS's config file lives in `/etc/acs/config.json`, it looks something like this:
     "port": 8200,
     "ssl": false
   },
+  "tokend": {
+    "host": "localhost",
+    "port": 4500,
+    "path": "/v1/token/default"
+  },
   "log": {
     "level": "info"
   }
