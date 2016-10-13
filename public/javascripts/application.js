@@ -1,5 +1,5 @@
 $(document).on('click', '#secret_submit', function () {
-  $.getJSON('/encrypt/get_ct_json', {
+  $.post('/encrypt/get_ct_json', {
     plaintext_secret: $('#plaintext_secret').val()
   },
   function(json) {
