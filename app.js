@@ -1,15 +1,16 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var config = require('./lib/config')
+const express = require('express');
+const expressWinston = require('express-winston');
+const path = require('path');
+const favicon = require('serve-favicon');
+const Logger = require('./lib/logger');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const config = require('./lib/config')
 
-var routes = require('./routes/index');
-var encrypt = require('./routes/encrypt');
+const routes = require('./routes/index');
+const encrypt = require('./routes/encrypt');
 
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -17,7 +18,14 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+global.Log = Logger.attach(Config.get('log:level'));
+app.use(expressWinston.logger({
+  winstonInstance: global.Log,
+  expressFormat: true,
+  level: Config.get('log:level'),
+  baseMeta: {source: 'request', type: 'request'}
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
