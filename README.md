@@ -1,7 +1,6 @@
 # ACS -- Automatic Ciphertext Service
 Turns your plaintext secret into a ciphertext encoded with a named key through the magic of vault's transit backend.
 
-<<<<<<< c11c9f0ede6350a4c8633a670c79fa50f9bad499
 ## Getting started (development)
 
 1. Get vault up and running (ACS currently has only been tested against vault 0.6.0)
@@ -48,6 +47,3 @@ ACS's config file lives in `/etc/acs/config.json`, it looks something like this:
   }
 }
 ```
-=======
-## Getting started
->>>>>>> Initial commit - <Alan Sebastian | David Greene>
