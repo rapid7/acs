@@ -66,31 +66,32 @@ textarea[name="plaintext_secret"] {
 
 /* ALERTS */
 .alert {
-    display: block;
-    padding: 20px;
-    border-left: 5px solid;
+  display: block;
+  padding: 20px;
+  border: 1px solid;
+  border-radius: 5px;
 }
 
 .alert-success {
-    background-color: #D5F5E3;
-    border-left-color: #2ECC71;
-    color: #2ECC71;
+  background-color: #D5F5E3;
+  border-color: #2ECC71;
+  color: #2ECC71;
 }
 
 .alert-info {
-    background-color: #D6EAF8;
-    border-left-color: #3498DB;
-    color: #3498DB;
+  background-color: #D6EAF8;
+  border-color: #3498DB;
+  color: #3498DB;
 }
 
 .alert-warning {
-    background-color: #FCF3CF;
-    border-left-color: #F1C40F;
-    color: #F1C40F;
+  background-color: #FCF3CF;
+  border-color: #F1C40F;
+  color: #F1C40F;
 }
 
 .alert-error {
-    background-color: #F2D7D5;
-    border-left-color: #C0392B;
-    color: #C0392B;
+  background-color: #F2D7D5;
+  border-color: #C0392B;
+  color: #C0392B;
 }
