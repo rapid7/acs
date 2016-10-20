@@ -1,0 +1,31 @@
+{
+  "name": "acs",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "./node_modules/mocha/bin/mocha",
+    "lint": "./node_modules/eslint/bin/eslint.js bin/* lib/*.js lib/**/*.js test/*.js test/**/*.js"
+  },
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "ejs": "~2.4.1",
+    "express": "~4.13.4",
+    "express-winston": "^2.0.0",
+    "nconf": "^0.8.4",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1",
+    "serve-favicon": "~2.3.0",
+    "vaulted": "^3.2.0",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^3.6.1",
+    "eslint-config-rapid7": "^1.1.1",
+    "mocha": "^3.1.0",
+    "supertest": "^2.0.0"
+  }
+}
