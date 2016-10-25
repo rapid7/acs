@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="/javascripts/application.js"></script>
+  </head>
+  <body>
+    <div id="header" class="u-full-width">
+      <h1 id="title" class="u-pull-left">ACS</h1>
+      <ul class="u-pull-right">
+        <li><a href="/" class="selected">Encryption</a></li>
+        <li><a href="#"></a></li>
+      </ul>
+    </div>
+    <div class="container">
+      <p id="tagline">Welcome to <%= title %>, please supply your secret.</p>
+      <div id="form-container">
+        <form action="/encrypt/get_ciphertext" method="get">
+          <textarea id="plaintext_secret" name="plaintext_secret" autocomplete="off" rows="20" cols="40" maxlength="1024" required></textarea>
+          <input id="secret_submit" type="submit" value="Submit secret" onclick="return false" />
+        </form>
+      </div>
+      <div id="response_container">
+        <p id="alert" class="alert hidden"></p>
+        <pre>
+        <code class="hidden" id="response"></code>
+        </pre>
+      </div>
+    </div>
+  </body>
+</html>
