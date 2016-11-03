@@ -7,6 +7,15 @@
     "test": "./node_modules/mocha/bin/mocha",
     "lint": "./node_modules/eslint/bin/eslint.js bin/* lib/*.js lib/**/*.js test/*.js test/**/*.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rapid7/acs.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rapid7/acs/issues"
+  },
+  "homepage": "https://github.com/rapid7/acs#readme",
   "dependencies": {
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
