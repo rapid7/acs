@@ -1,0 +1,15 @@
+{
+  "vault": {
+    "host": "127.0.0.1",
+    "port": 8200,
+    "ssl": false
+  },
+  "tokend": {
+    "host": "localhost",
+    "port": 4500,
+    "path": "/v1/token/default"
+  },
+  "log": {
+    "level": "info"
+  }
+}
