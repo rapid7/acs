@@ -7,7 +7,7 @@ Turns your plaintext secret into a ciphertext encoded with a named key through t
   * `export VAULT_DEV_ROOT_TOKEN="your-root-token"`
   * `vault server --dev`
   * `vault mount transit`
-  * `vault write -f keys/transit/your_acs_key`
+  * `vault write -f transit/keys/your_acs_key`
 2. start tokend's metadata-server
   * `cd /path/to/tokend/ && npm run metadata-server`
 3. start tokend's warden-mock
