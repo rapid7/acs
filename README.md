@@ -17,15 +17,17 @@ Turns your plaintext secret into a ciphertext encoded with a named key through t
   * `export VAULT_ADDR='http://127.0.0.1:8200'`
   * `cd /path/to/tokend && npm start -- -c config/dev.json`
 5. start ACS
-  * create a config file in `/etc/acs/config.json` (see below)
   * `cd /path/to/acs`
   * `export PORT=3001`
-  * `npm start`
+  * `npm start -- -c config/dev.json`
   * navigate to localhost:3001 in your browser
 
 ### Configuration
 
-ACS's config file lives in `/etc/acs/config.json`, it looks something like this:
+You specify a configuration file at run time like this:
+`npm start -- -c path/to/your/config.json`
+
+Here is a full example of a config.json with all of the available configuration parameters:
 
 ```json
 {
