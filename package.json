@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./bin/server.js",
     "test": "./node_modules/mocha/bin/mocha",
     "lint": "./node_modules/eslint/bin/eslint.js bin/* lib/*.js lib/**/*.js test/*.js test/**/*.js"
   },
