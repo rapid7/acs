@@ -95,7 +95,7 @@ task :package_dirs do
 end
 
 task :source => [:install] do
-  ['bin/', 'lib/', 'node_modules/', 'LICENSE', 'package.json', 'pkcs7/'].each do |src|
+  ['bin/', 'lib/', 'node_modules/', 'LICENSE', 'package.json'].each do |src|
     cp_r ::File.join(base_dir, src), ::File.join(base_dir, install_dir)
   end
   cp ::File.join(base_dir, 'config', 'defaults.json'), ::File.join(base_dir, config_dir)
