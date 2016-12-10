@@ -7,4 +7,4 @@ default['acs']['paths']['configuration'] = '/etc/acs/config.json'
 
 default['acs']['config'] = Mash.new
 default['acs']['version'] = nil
-default['acs']['enable'] = true
+default['acs']['enable'] = false
