@@ -102,7 +102,7 @@ end
 
 template 'acs-configuration' do
   path node['acs']['paths']['configuration']
-  source 'json.erb'
+  source 'config.json.erb'
 
   owner node['acs']['user']
   group node['acs']['group']
