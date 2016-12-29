@@ -39,14 +39,6 @@ user node['acs']['user'] do
   home node['acs']['paths']['directory']
 end
 
-directory node['acs']['paths']['directory'] do
-  owner node['acs']['user']
-  group node['acs']['group']
-  mode '0755'
-
-  recursive true
-end
-
 ## Fetch and install acs
 remote_file 'acs' do
   source ACS::Helpers.github_download('rapid7', 'acs', node['acs']['version'])
@@ -56,26 +48,15 @@ remote_file 'acs' do
   backup false
 end
 
-version_dir = "#{ node['acs']['paths']['directory'] }-#{ node['acs']['version'] }"
-
-## Symlink the version dir to the specified acs directory
-link node['acs']['paths']['directory'] do
-  to version_dir
-  owner node['acs']['user']
-  group node['acs']['group']
-
-  notifies :restart, 'service[acs]' if node['acs']['enable']
-end
-
 package 'acs' do
   source resources('remote_file[acs]').path
   provider Chef::Provider::Package::Dpkg
-  notifies :run, "execute[chown #{version_dir}]"
+  notifies :run, "execute[chown #{node['acs']['paths']['directory']}]"
 end
 
 ## Chown the contents of the versioned acs directory to the acs user/group
-execute "chown #{version_dir}" do
-  command "chown -R #{node['acs']['user']}:#{node['acs']['group']} #{version_dir}"
+execute "chown #{node['acs']['paths']['directory']}" do
+  command "chown -R #{node['acs']['user']}:#{node['acs']['group']} #{node['acs']['paths']['directory']} && chmod +x #{node['acs']['paths']['executable']}"
   user 'root'
   action :nothing
 end
