@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
       plaintext: document.querySelector('#plaintext_secret').value
     };
 
-    request.open('POST', '/v1/encrypt', true);
+    request.open('POST', '/v1/vault', true);
     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     request.onload = function() {
       var resp = '';
