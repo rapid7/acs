@@ -12,11 +12,10 @@
     "port": 3000
   },
   "log": {
-    "level": "INFO",
-    "json": true,
-    "requests": true
+    "level": "info"
   },
-  "aws": {
-    "region": "us-east-1"
+  "service": {
+    "host": "localhost",
+    "port": 3000
   }
 }
