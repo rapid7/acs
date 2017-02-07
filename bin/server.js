@@ -39,7 +39,6 @@ if (Config.get('log:requests')) {
 
 // Add middleware for paring JSON requests
 app.use(BodyParser.json());
-app.use(BodyParser.urlencoded({extended: false}));
 
 app.use(CookieParser());
 
