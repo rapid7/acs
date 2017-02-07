@@ -1,90 +1,68 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
+const args = require('yargs')
+  .usage('Usage: $0 [args]')
+  .option('c', {
+    alias: 'config',
+    describe: 'Load configuration from file',
+    type: 'string'
+  })
+  .help('help')
+  .argv;
 
-const app = require('../app');
-const debug = require('debug')('acs:server');
-const http = require('http');
+const express = require('express');
+const HTTP = require('http');
+const Path = require('path');
+const Logger = require('../lib/logger');
+const BodyParser = require('body-parser');
+const CookieParser = require('cookie-parser');
+const Favicon = require('serve-favicon');
 
-/**
- * Get port from environment and store in Express.
- */
+const app = express();
+const server = HTTP.createServer(app);
 
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+// Load nconf into the global namespace
+global.Config = require('nconf').env()
+  .argv();
 
-/**
- * Create HTTP server.
- */
+if (args.c) {
+  Config.file(Path.resolve(process.cwd(), args.c));
+}
+Config.defaults(require('../config/defaults.json'));
 
-const server = http.createServer(app);
+global.Log = Logger.attach(Config.get('log:level'));
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  const port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
+// Add request logging middleware
+if (Config.get('log:requests')) {
+  app.use(Logger.requests(Log, Config.get('log:level')));
 }
 
-/**
- * Event listener for HTTP server "error" event.
- */
+// Add middleware for paring JSON requests
+app.use(BodyParser.json());
+app.use(BodyParser.urlencoded({extended: false}));
 
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+app.use(CookieParser());
 
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+// view engine setup
+app.set('views', Path.join(__dirname, '..', 'views'));
+app.set('view engine', 'ejs');
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
+app.use(express.static(Path.join(__dirname, '..', 'public')));
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+// uncomment after placing your favicon in /public
+//app.use(favicon(path.join(__dirname, '..', 'public', 'favicon.ico')));
 
-function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-}
+
+require('../lib/control/v1/')(app);
+
+// Instantiate server and start it
+const host = Config.get('service:host');
+const port = Config.get('service:port');
+
+server.on('error', (err) => {
+  Log.log('ERROR', err);
+});
+
+server.listen(port, host, () => {
+  Log.log('INFO', `Listening on ${host}:${port}`);
+});
