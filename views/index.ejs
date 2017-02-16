@@ -4,18 +4,28 @@
   <body>
     <% include ./partials/header %>
     <div class="container">
-      <p id="tagline">Welcome to <%= title %>, please supply your secret.</p>
-      <div id="form-container">
-        <form action="/encrypt/get_ciphertext" method="get">
-          <textarea id="plaintext_secret" name="plaintext_secret" autocomplete="off" rows="20" cols="40" maxlength="1024" required></textarea>
-          <input id="secret_submit" type="submit" value="Submit secret" onclick="return false" />
-        </form>
+      <div class="row">
+        <div class="twelve columns">
+          <p id="tagline">Welcome to <%= title %>, please supply your secret.</p>
+        </div>
       </div>
-      <div id="response_container">
-        <p id="alert" class="alert alert-error hidden"></p>
-        <pre>
-        <code class="hidden" id="response"></code>
-        </pre>
+      <div class="row">
+        <div class="twelve columns">
+          <% include ./partials/tabs %>
+
+          <div class="tab-content">
+            <% include ./partials/vault %>
+            <% include ./partials/kms %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="twelve columns">
+          <p id="alert" class="alert-error hidden"></p>
+          <pre>
+            <code class="hidden" id="response"></code>
+          </pre>
+        </div>
       </div>
     </div>
   </body>

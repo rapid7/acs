@@ -1,0 +1,18 @@
+<div class="tab-pane active" id="kms">
+  <div class="form-container row">
+    <div class="six columns">
+      <form id="kms_form" name="kms_form" enctype="multipart/form-data">
+        <% if(typeof kms !== 'undefined') { %>
+          <p>Select the KMS key to encrypt with:</p>
+          <select class="u-full-width" id="kms_key" name="kms_key">
+            <% kms.forEach(function(key) { %>
+              <option value="<%= key.TargetKeyId %>"><%= key.AliasName.replace('alias/', ''); %></option>
+            <% }); %>
+          </select>
+        <% } %>
+        <textarea id="kms_secret" name="kms_secret" autocomplete="off" rows="20" cols="40" maxlength="1024" required></textarea>
+        <input class="button-primary" id="kms_secret_submit" type="submit" value="Submit secret" onclick="return false" />
+      </form>
+    </div>
+  </div>
+<div>
