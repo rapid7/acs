@@ -1,26 +1,46 @@
 # ACS -- Automatic Ciphertext Service
-Turns your plaintext secret into a ciphertext encoded with a named key through the magic of vault's transit backend.
+Turns your plaintext secret into a ciphertext encoded with a named key
+through the magic of vault's transit backend or KMS encryption.
 
 ## Getting started (development)
 
 1. Get vault up and running (ACS currently has only been tested against vault 0.6.0)
-  * `export VAULT_DEV_ROOT_TOKEN="your-root-token"`
-  * `vault server --dev`
-  * `vault mount transit`
-  * `vault write -f transit/keys/your_acs_key`
-2. start tokend's metadata-server
-  * `cd /path/to/tokend/ && npm run metadata-server`
-3. start tokend's warden-mock
-  * `export VAULT_ADDR='http://127.0.0.1:8200'`
-  * `cd /path/to/tokend && npm run warden-mock -- your-root-token`
-4. start tokend
-  * `export VAULT_ADDR='http://127.0.0.1:8200'`
-  * `cd /path/to/tokend && npm start -- -c config/dev.json`
-5. start ACS
-  * `cd /path/to/acs`
-  * `export PORT=3001`
-  * `npm start -- -c config/dev.json`
-  * navigate to localhost:3001 in your browser
+
+    ```bash
+    $ vault server -dev -dev-root-token-id="your-root-token"
+
+    # In another terminal
+    $ export VAULT_ADDR='http://127.0.0.1:8200'
+    $ vault mount transit
+    $ vault write -f transit/keys/your_acs_key
+    ```
+
+1. start tokend's metadata-server
+
+    ```bash
+    $ cd /path/to/tokend/ && npm run metadata-server
+    ```
+
+1. start tokend's warden-mock
+
+    ```bash
+    $ cd /path/to/tokend && npm run warden-mock -- your-root-token
+    ```
+
+1. start tokend
+
+    ```bash
+    $ cd /path/to/tokend && npm run dev
+    ```
+
+1. Start ACS
+
+    ```bash
+    $ cd /path/to/acs && npm run dev
+    ```
+
+1. Navigate to localhost:3001 in your browser
+
 
 ### Configuration
 
@@ -46,6 +66,18 @@ Here is a full example of a config.json with all of the available configuration 
   },
   "log": {
     "level": "info"
+  },
+  "service": {
+    "host": "localhost",
+    "port": 3000
+  },
+  "aws": {
+    "region": "us-east-1",
+    "key": "OPTIONAL"
   }
 }
 ```
+
+If using KMS, you can optionally specify a KMS key to use to encrypt all
+secrets. If not specified, the user can select which key to use from a
+drop down.

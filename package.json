@@ -4,6 +4,7 @@
   "description": "Automatic Ciphertext Service",
   "scripts": {
     "start": "node ./bin/server.js",
+    "dev": "node ./bin/server.js -c ./config/dev.json",
     "test": "./node_modules/mocha/bin/mocha",
     "lint": "./node_modules/eslint/bin/eslint.js bin/* lib/*.js lib/**/*.js test/*.js test/**/*.js"
   },

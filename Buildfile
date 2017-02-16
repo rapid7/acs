@@ -8,5 +8,5 @@ cookbook.depends 'acs' do |acs|
 end
 
 profile :default do |test|
-  test.chef.run_list 'acs::test'
+  test.chef.run_list 'acs::default'
 end
