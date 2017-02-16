@@ -1,35 +1,25 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function() {
-  var submit = document.querySelector('#secret_submit');
-  var alert = document.querySelector('#alert');
-  var response = document.querySelector('#response');
+  var alert = document.getElementById('alert'),
+    response = document.getElementById('response');
 
-  submit.addEventListener('click', function() {
-    var request = new XMLHttpRequest();
-    var data = {
-      plaintext: document.querySelector('#plaintext_secret').value
-    };
+  ['vault'].forEach(function(el) {
+    var submit = document.getElementById(el + '_secret_submit'),
+      form = document.getElementById(el + '_form');
+    submit.addEventListener('click', function() {
+      var request = new XMLHttpRequest(),
+        data = new FormData(form);
 
-    request.open('POST', '/v1/vault', true);
-    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    request.onload = function() {
-      var resp = '';
+      request.open('POST', '/v1/' + el, true);
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          alert.classList.add('hidden');
+          alert.classList.remove('alert');
+          alert.innerHTML = '';
 
-      try {
-        resp = JSON.parse(request.responseText);
-      } catch (ex) {}
-
-      if (request.status >= 200 && request.status < 400) {
-        alert.classList.add('hidden');
-        alert.innerHTML = '';
-
-        response.classList.remove('hidden');
-        response.innerHTML = '$tokend\n' +
-          '  type: transit\n' +
-          '  resource: /v1/transit/default/decrypt\n' +
-          '  key: ' + resp.key + '\n' +
-          '  ciphertext: "' + resp.ciphertext + '"\n';
+          response.classList.remove('hidden');
+          response.innerHTML = request.responseText
         } else {
           // Error case
           var resp = JSON.parse(request.responseText);
@@ -41,14 +31,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
           alert.classList.add('alert');
           alert.classList.remove('hidden');
+          if (!resp.error) {
+            alert.innerHTML = 'An unknown error has occured.';
 
-        alert.classList.remove('hidden');
-        if (!resp.error) {
-          alert.innerHTML = 'Check logs for stacktrace, error is undefined';
+            return;
+          }
 
-          alert.innerHTML = resp.error.errors.reduce(function(errorString, error) {
-            return errorString + error + '\n';
-          }, '');
+          resp.error.errors.forEach(function(err) {
+            alert.innerHTML += err + '\n';
+          });
         }
       };
       request.send(data);
@@ -60,14 +51,13 @@ document.addEventListener('DOMContentLoaded', function() {
       var href = document.querySelector(this.attributes['data-target'].value),
         tabList = this.parentNode.parentNode;
 
-        resp.error.errors.forEach(function(err) {
-          alert.innerHTML += err + '\n';
-        });
-      }
+      tabList.querySelector('li p.active.button').classList.remove('active');
       this.classList.add('active');
 
       href.parentNode.querySelector('.tab-pane.active').classList.remove('active');
       href.classList.add('active');
+
+      return false;
     });
   });
 });
