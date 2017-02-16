@@ -1,53 +1,76 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function() {
-  var submit = document.getElementById('secret_submit');
-  var alert = document.getElementById('alert');
-  var response = document.getElementById('response');
+  var alert = document.getElementById('alert'),
+    response = document.getElementById('response');
 
-  submit.addEventListener('click', function() {
-    var request = new XMLHttpRequest();
-    var data = {
-      plaintext_secret: document.getElementById('plaintext_secret').value
-    };
+  ['vault'].forEach(function(el) {
+    var submit = document.getElementById(el + '_secret_submit'),
+      form = document.getElementById(el + '_form');
+    submit.addEventListener('click', function() {
+      var request = new XMLHttpRequest(),
+        data = new FormData(form);
 
-    request.open('POST', '/v1/vault', true);
-    request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    request.onload = function() {
-      var resp = '';
+      request.open('POST', '/v1/' + el, true);
+      request.onload = function() {
+        var resp = '';
 
-      try {
-        resp = JSON.parse(request.responseText);
-      } catch (ex) {}
+        try {
+          resp = JSON.parse(request.responseText);
+        } catch (ex) {}
 
-      if (request.status >= 200 && request.status < 400) {
-        alert.classList.add('hidden');
-        alert.innerHTML = '';
 
-        response.classList.remove('hidden');
-        response.innerHTML = '$tokend\n' +
+        if (request.status >= 200 && request.status < 400) {
+          alert.classList.add('hidden');
+          alert.classList.remove('alert');
+          alert.innerHTML = '';
+
+          response.classList.remove('hidden');
+
+          response.innerHTML = '$tokend:\n' +
           '  type: transit\n' +
           '  resource: /v1/transit/default/decrypt\n' +
           '  key: ' + resp.key + '\n' +
           '  ciphertext: "' + resp.ciphertext + '"\n';
-      } else {
-        // Error case
-        response.classList.add('hidden');
-        response.innerHTML = '';
+        } else {
+          var resp = JSON.parse(request.responseText);
 
-        alert.classList.remove('hidden');
+          // Error case
+          response.classList.add('hidden');
+          response.innerHTML = '';
+          // Reset the error field
+          alert.innerHTML = '';
 
-        if (!resp.error) {
-          alert.innerHTML = 'Check logs for stacktrace, error is undefined';
+          alert.classList.add('alert');
+          alert.classList.remove('hidden');
 
-          return;
+          if (!resp.error) {
+            alert.innerHTML = 'An unknown error has occured.';
+
+            return;
+          }
+
+          alert.innerHTML = resp.error.errors.reduce(function(errorString, error) {
+            return errorString + error + '\n';
+          }, '');
         }
+      };
+      request.send(data);
+    });
+  });
 
-        alert.innerHTML = resp.error.errors.reduce(function(errorString, error) {
-          return errorString + error + '\n';
-        }, '');
+  document.querySelectorAll('ul.tab-nav li p.button').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var href = document.querySelector(this.attributes['data-target'].value),
+        tabList = this.parentNode.parentNode;
+
+      if (tabList.querySelector('li p.active.button') !== null) {
+        tabList.querySelector('li p.active.button').classList.remove('active');
       }
-    };
-    request.send(JSON.stringify(data));
+      this.classList.add('active');
+
+      href.parentNode.querySelector('.tab-pane.active').classList.remove('active');
+      href.classList.add('active');
+    });
   });
 });
