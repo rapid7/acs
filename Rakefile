@@ -49,7 +49,7 @@ def max_version
 end
 
 def install_dir
-  ::File.join('pkg', 'opt', name)
+  ::File.join('pkg', 'opt', "#{name}-#{version}")
 end
 
 def config_dir
@@ -95,7 +95,7 @@ task :package_dirs do
 end
 
 task :source => [:install] do
-  ['bin/', 'lib/', 'public/', 'routes/', 'views/', 'node_modules/', 'LICENSE', 'package.json', 'app.js'].each do |src|
+  ['bin/', 'lib/', 'public/', 'views/', 'node_modules/', 'LICENSE', 'package.json'].each do |src|
     cp_r ::File.join(base_dir, src), ::File.join(base_dir, install_dir)
   end
   cp ::File.join(base_dir, 'config', 'defaults.json'), ::File.join(base_dir, config_dir)
