@@ -2,7 +2,7 @@
 # Cookbook Name:: acs
 # Recipe:: default
 #
-# Copyright (C) 2016 Rapid7 LLC.
+# Copyright (C) 2017 Rapid7 LLC.
 #
 # Distributed under terms of the MIT License. All rights not explicitly granted
 # in the MIT license are reserved. See the included LICENSE file for more details.
@@ -48,24 +48,21 @@ remote_file 'acs' do
   backup false
 end
 
+version_dir = "#{ node['acs']['paths']['directory'] }-#{ node['acs']['version'] }"
+
 package 'acs' do
   source resources('remote_file[acs]').path
   provider Chef::Provider::Package::Dpkg
-  notifies :run, "execute[chown #{node['acs']['paths']['directory']}]"
 end
 
-## Chown the contents of the versioned acs directory to the acs user/group
-execute "chown #{node['acs']['paths']['directory']}" do
-  command "chown -R #{node['acs']['user']}:#{node['acs']['group']} #{node['acs']['paths']['directory']} && chmod +x #{node['acs']['paths']['executable']}"
-  user 'root'
-  action :nothing
+## Symlink the version dir to the specified acs directory
+link node['acs']['paths']['directory'] do
+  to version_dir
+  notifies :restart, 'service[acs]' if node['acs']['enable']
 end
 
 ## Upstart Service
 template '/etc/init/acs.conf' do
-  owner node['acs']['user']
-  group node['acs']['group']
-
   source 'upstart.conf.erb'
   variables(
     :description => 'acs configuration service',
@@ -75,15 +72,10 @@ template '/etc/init/acs.conf' do
       "-c #{node['acs']['paths']['configuration']}"
     ]
   )
-
-  notifies :restart, 'service[acs]' if node['acs']['enable']
 end
 
 directory 'acs-configuration-directory' do
   path ::File.dirname(node['acs']['paths']['configuration'])
-
-  owner node['acs']['user']
-  group node['acs']['group']
   mode '0755'
 
   recursive true
@@ -92,9 +84,6 @@ end
 template 'acs-configuration' do
   path node['acs']['paths']['configuration']
   source 'config.json.erb'
-
-  owner node['acs']['user']
-  group node['acs']['group']
 
   variables(:properties => node['acs']['config'])
   notifies :restart, 'service[acs]' if node['acs']['enable']
