@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/server.js",
     "test": "./node_modules/mocha/bin/mocha",
-    "lint": "./node_modules/eslint/bin/eslint.js bin/* lib/*.js lib/**/*.js test/*.js test/**/*.js"
+    "lint": "./node_modules/eslint/bin/eslint.js bin/* lib/*.js lib/**/*.js"
   },
   "repository": {
     "type": "git",
