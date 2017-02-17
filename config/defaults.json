@@ -1,20 +1,20 @@
 {
   "vault": {
-    "host": "127.0.0.1",
-    "port": 8200,
-    "ssl": false
+    "tls": true
   },
   "tokend": {
     "host": "localhost",
     "port": 4500,
     "path": "/v1/token/default"
   },
-  "log": {
-    "level": "info"
-  },
   "service": {
-    "host": "localhost",
+    "host": "127.0.0.1",
     "port": 3000
+  },
+  "log": {
+    "level": "INFO",
+    "json": true,
+    "requests": true
   },
   "aws": {
     "region": "us-east-1"
