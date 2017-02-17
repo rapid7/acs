@@ -51,7 +51,10 @@ document.addEventListener('DOMContentLoaded', function() {
       var href = document.querySelector(this.attributes['data-target'].value),
         tabList = this.parentNode.parentNode;
 
-      tabList.querySelector('li p.active.button').classList.remove('active');
+      if (tabList.querySelector('li p.active.button') !== null) {
+        tabList.querySelector('li p.active.button').classList.remove('active');
+      }
+
       this.classList.add('active');
 
       href.parentNode.querySelector('.tab-pane.active').classList.remove('active');
