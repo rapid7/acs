@@ -1,5 +1,10 @@
 {
-  "acs": {
+  "vault": {
+    "host": "127.0.0.1",
+    "port": 8200,
     "transit_key": "your_acs_key"
+  },
+  "aws": {
+    "key": "your_kms_key_id"
   }
 }
