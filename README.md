@@ -52,12 +52,13 @@ Here is a full example of a config.json with all of the available configuration 
 ```json
 {
   "acs": {
-    "transit_key": "your_acs_key"
+
   },
   "vault": {
     "host": "127.0.0.1",
     "port": 8200,
-    "ssl": false
+    "tls": false,
+    "transit_key": "your_acs_key"
   },
   "tokend": {
     "host": "localhost",
@@ -65,7 +66,9 @@ Here is a full example of a config.json with all of the available configuration 
     "path": "/v1/token/default"
   },
   "log": {
-    "level": "info"
+    "level": "INFO",
+    "json": true,
+    "requests": true
   },
   "service": {
     "host": "localhost",
