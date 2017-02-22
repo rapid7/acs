@@ -13,7 +13,7 @@
   },
   "log": {
     "level": "INFO",
-    "requests": true,
-    "json": true
+    "json": true,
+    "requests": true
   }
 }
