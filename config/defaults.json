@@ -10,7 +10,7 @@
     "path": "/v1/token/default"
   },
   "log": {
-    "level": "info",
+    "level": "INFO",
     "requests": true,
     "json": true
   },
