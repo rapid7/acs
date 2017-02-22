@@ -1,5 +1,8 @@
 {
-  "acs": {
+  "vault": {
+    "host": "127.0.0.1",
+    "port": 8200,
+    "tls": false,
     "transit_key": "your_acs_key"
   },
   "log": {
