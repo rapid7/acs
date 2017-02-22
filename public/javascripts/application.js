@@ -1,14 +1,14 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', function() {
-  var submit = document.querySelector('#secret_submit');
-  var alert = document.querySelector('#alert');
-  var response = document.querySelector('#response');
+  var submit = document.getElementById('secret_submit');
+  var alert = document.getElementById('alert');
+  var response = document.getElementById('response');
 
   submit.addEventListener('click', function() {
     var request = new XMLHttpRequest();
     var data = {
-      plaintext_secret: document.querySelector('#plaintext_secret').value
+      plaintext_secret: document.getElementById('plaintext_secret').value
     };
 
     request.open('POST', '/encrypt/get_ct_json', true);
