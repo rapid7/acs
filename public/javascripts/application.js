@@ -42,9 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
           return;
         }
 
-        resp.error.errors.forEach(function(err) {
-          alert.innerHTML += err + '\n';
-        });
+        alert.innerHTML = resp.error.errors.reduce(function(errorString, error) {
+          return errorString + error + '\n';
+        }, '');
       }
     };
     request.send(JSON.stringify(data));
