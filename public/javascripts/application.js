@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         response.innerHTML = '';
 
         alert.classList.remove('hidden');
+
         if (!resp.error) {
           alert.innerHTML = 'Check logs for stacktrace, error is undefined';
 
