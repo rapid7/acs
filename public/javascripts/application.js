@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
           alert.innerHTML = '';
 
           response.classList.remove('hidden');
-
           response.innerHTML = request.responseText;
         } else {
           // Error case
