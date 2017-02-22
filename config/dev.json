@@ -1,5 +1,9 @@
 {
   "acs": {
     "transit_key": "your_acs_key"
+  },
+  "log": {
+    "json": false,
+    "requests": false
   }
 }
