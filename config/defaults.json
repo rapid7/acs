@@ -10,6 +10,12 @@
     "path": "/v1/token/default"
   },
   "log": {
-    "level": "info"
+    "level": "info",
+    "requests": true,
+    "json": true
+  },
+  "service": {
+    "host": "localhost",
+    "port": 3000
   }
 }
