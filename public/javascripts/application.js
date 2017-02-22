@@ -13,13 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
       request.open('POST', '/v1/' + el, true);
       request.onload = function() {
-        var resp = '';
-
-        try {
-          resp = JSON.parse(request.responseText);
-        } catch (ex) {}
-
-
         if (request.status >= 200 && request.status < 400) {
           alert.classList.add('hidden');
           alert.classList.remove('alert');
@@ -27,15 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
           response.classList.remove('hidden');
 
-          response.innerHTML = '$tokend:\n' +
-          '  type: transit\n' +
-          '  resource: /v1/transit/default/decrypt\n' +
-          '  key: ' + resp.key + '\n' +
-          '  ciphertext: "' + resp.ciphertext + '"\n';
+          response.innerHTML = request.responseText;
         } else {
+          // Error case
           var resp = JSON.parse(request.responseText);
 
-          // Error case
           response.classList.add('hidden');
           response.innerHTML = '';
           // Reset the error field
