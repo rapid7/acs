@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var alert = document.getElementById('alert'),
     response = document.getElementById('response');
 
-  ['vault', 'kms'].forEach(function(el) {
+  backends.forEach(function(el) {
     var submit = document.getElementById(el + '_secret_submit'),
       form = document.getElementById(el + '_form');
     submit.addEventListener('click', function() {
