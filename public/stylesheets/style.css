@@ -54,7 +54,7 @@ div.form-container {
   position: relative;
 }
 
-textarea[name=vault_secret] {
+textarea[name=vault_secret], textarea[name=kms_secret] {
   height: 240px;
 }
 

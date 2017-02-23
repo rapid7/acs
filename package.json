@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/rapid7/acs#readme",
   "dependencies": {
+    "aws-sdk": "^2.18.0",
     "body-parser": "^1.16.0",
     "cookie-parser": "~1.4.3",
     "debug": "^2.6.1",
