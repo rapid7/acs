@@ -1,4 +1,4 @@
-<div class="tab-pane" id="vault">
+<div class="tab-pane <% if (!backends.kms) { %>active<% } %>" id="vault">
   <div class="form-container row">
     <div class="six columns">
       <form id="vault_form" name="vault_form" enctype="multipart/form-data">
