@@ -14,8 +14,12 @@
           <% include ./partials/tabs %>
 
           <div class="tab-content">
-            <% include ./partials/vault %>
-            <% include ./partials/kms %>
+            <% if (backends.vault) { %>
+              <% include ./partials/vault %>
+            <% } %>
+            <% if (backends.kms) { %>
+              <% include ./partials/kms %>
+            <% } %>
           </div>
         </div>
       </div>
@@ -28,5 +32,15 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+      var backends = <%- JSON.stringify(backends) %>;
+      Object.keys(backends).forEach(function(el) {
+        if(!backends[el]) {
+          delete backends[el];
+        }
+      });
+      backends = Object.keys(backends);
+    </script>
+    <script src="/javascripts/application.js"></script>
   </body>
 </html>

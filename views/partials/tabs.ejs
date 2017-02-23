@@ -1,4 +1,8 @@
 <ul class="tab-nav">
-  <li><p class="button active" data-target="#kms">KMS</p></li>
-  <li><p class="button" data-target="#vault">Vault</p></li>
+  <% if (backends.kms) { %>
+    <li><p class="button active" data-target="#kms">KMS</p></li>
+  <% } %>
+  <% if (backends.vault) { %>
+    <li><p class="button <% if (!backends.kms) { %>active<% } %>" data-target="#vault">Vault</p></li>
+  <% } %>
 </ul>
