@@ -37,6 +37,8 @@ if (Config.get('log:requests')) {
   app.use(Logger.requests(Log, Config.get('log:level')));
 }
 
+Config.set('vault:endpoint', `http${Config.get('vault:tls') ? 's' : ''}://${Config.get('vault:host')}:${Config.get('vault:port')}/${Config.get('vault:api')}`);
+
 // Add middleware for paring JSON requests
 app.use(BodyParser.json());
 
