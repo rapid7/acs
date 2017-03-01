@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var request = new XMLHttpRequest(),
         data = new FormData(form);
 
-      request.open('POST', '/v1/' + el, true);
+      request.open('POST', 'v1/' + el, true);
       request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
           alert.classList.add('hidden');
