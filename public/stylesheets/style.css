@@ -133,5 +133,6 @@ pre {
 pre code {
  float: left;
  clear: both;
- min-width: 100%;
+ width: 100%;
+ overflow: auto;
 }
