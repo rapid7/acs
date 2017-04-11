@@ -15,3 +15,4 @@ license package_dot_json.fetch('license', 'MIT License, 2017')
 long_description IO.read(::File.join(project_path, 'README.md')) rescue ''
 version package_dot_json.fetch('version', '0.0.1')
 
+depends 'nodejs'
