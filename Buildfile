@@ -7,6 +7,10 @@ cookbook.depends 'acs' do |acs|
   acs.path './cookbook'
 end
 
-profile :default do |test|
-  test.chef.run_list 'acs::test'
+profile :default do |default|
+  default.chef.run_list ['acs::nodejs', 'acs::default']
+end
+
+profile :test do |test|
+  test.chef.run_list ['acs::nodejs', 'acs::test']
 end
