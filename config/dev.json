@@ -9,5 +9,11 @@
   "log": {
     "json": false,
     "requests": false
+  },
+  "aws": {
+    "region": {
+      "us-east-1": "",
+      "eu-central-1": ""
+    }
   }
 }

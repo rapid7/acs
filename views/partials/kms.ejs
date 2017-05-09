@@ -3,10 +3,10 @@
     <div class="six columns">
       <form id="kms_form" name="kms_form" enctype="multipart/form-data">
         <% if(typeof kms !== 'undefined') { %>
-          <p>Select the KMS key to encrypt with:</p>
+          <p>Select the region in which to encrypt your secret:</p>
           <select class="u-full-width" id="kms_key" name="kms_key">
-            <% kms.forEach(function(key) { %>
-              <option value="<%= key.TargetKeyId %>"><%= key.AliasName.replace('alias/', ''); %></option>
+            <% kms.forEach(function(r) { %>
+              <option value="<%= JSON.stringify(r) %>"><%= r.region %></option>
             <% }); %>
           </select>
         <% } %>

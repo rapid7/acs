@@ -15,8 +15,5 @@
     "level": "INFO",
     "json": true,
     "requests": true
-  },
-  "aws": {
-    "region": "us-east-1"
   }
 }
