@@ -36,6 +36,7 @@ version_dir = "#{ node['acs']['paths']['directory'] }-#{ node['acs']['version'] 
 package 'acs' do
   source resources('remote_file[acs]').path
   provider Chef::Provider::Package::Dpkg
+  version node['acs']['version']
 end
 
 ## Symlink the version dir to the specified acs directory
