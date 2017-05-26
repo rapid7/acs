@@ -37,11 +37,15 @@ package 'acs' do
   source resources('remote_file[acs]').path
   provider Chef::Provider::Package::Dpkg
   version node['acs']['version']
+
+  notifies :create, "link[#{node['acs']['paths']['directory']}]", :immediately
 end
 
 ## Symlink the version dir to the specified acs directory
 link node['acs']['paths']['directory'] do
   to version_dir
+
+  action :nothing
   notifies :restart, 'service[acs]' if node['acs']['enable']
 end
 
