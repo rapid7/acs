@@ -1,6 +1,6 @@
 {
   "name": "acs",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Automatic Ciphertext Service",
   "scripts": {
     "start": "node ./bin/server.js",
