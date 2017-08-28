@@ -94,7 +94,7 @@ task :transpile do
   if yarn_exists?
     sh 'yarn run transpile'
   else
-    sh 'npm run tranpsile'
+    sh 'npm run transpile'
   end
 end
 
