@@ -7,7 +7,7 @@ const rp = require('request-promise');
 let version;
 
 try {
-  version = require('../../../package.json').version;
+  version = require('../../../version.json').version;
 } catch (ex) {
   version = '0.0.0';
 }
