@@ -8,7 +8,6 @@
     "clean": "rimraf dist",
     "version": "./test/bin/version.js",
     "transpile": "npm run version && babel src --out-dir dist --copy-files",
-    "test": "npm run transpile && mocha",
     "lint": "eslint src/**/*.js test/**/*.js"
   },
   "repository": {
