@@ -48,3 +48,5 @@ cookbook/metadata.json
 *.tar.gz
 *.tgz
 npm-shrinkwrap.json
+dist/
+src/version.json
