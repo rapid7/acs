@@ -3,10 +3,13 @@
   "version": "2.2.1",
   "description": "Automatic Ciphertext Service",
   "scripts": {
-    "start": "node ./bin/server.js",
-    "dev": "node ./bin/server.js -c ./config/dev.json",
-    "test": "mocha",
-    "lint": "eslint bin/* lib/*.js lib/**/*.js"
+    "start": "nodemon ./src/bin/server.js --exec babel-node --",
+    "dev": "npm start -c ./config/dev.json",
+    "clean": "rimraf dist",
+    "version": "./test/bin/version.js",
+    "transpile": "npm run version && babel src --out-dir dist --copy-files",
+    "test": "npm run transpile && mocha",
+    "lint": "eslint src/**/*.js test/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -47,6 +50,7 @@
     "eslint-plugin-react": "^7.3.0",
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
+    "rimraf": "^2.6.1",
     "supertest": "^3.0.0"
   }
 }
