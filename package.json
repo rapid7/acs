@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon ./src/bin/server.js --exec babel-node --",
     "dev": "npm start -c ./config/dev.json",
-    "clean": "rimraf dist",
+    "clean": "rm src/version.json; rimraf dist",
     "version": "./version.js",
     "transpile": "npm run version && babel src --out-dir dist --copy-files",
     "lint": "eslint src/**/*.js test/**/*.js"
