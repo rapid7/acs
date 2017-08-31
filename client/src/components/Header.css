@@ -1,0 +1,31 @@
+div#header {
+  height: 60px;
+  background-color: #333;
+  padding-left: 10px;
+}
+
+#header ul {
+  display: inline;
+}
+
+#header ul li {
+  float: left;
+  padding: 20px 10px;
+}
+
+#header ul li a {
+  font-size: 15px;
+  color: #999;
+  text-decoration: none;
+}
+
+#header ul li a:hover {
+  color: #eee !important;
+}
+
+h1#title {
+  color: rgba(255,255,255,0.7);
+  font-weight: 300;
+  width: 100px;
+}
+
