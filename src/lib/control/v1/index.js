@@ -1,5 +1,5 @@
 import {check} from '../../kms';
-import {checkVault} from '../../vault/ciphertext';
+import {checkVault} from '../../vault';
 import Err from './error';
 import vaultRoute from './vault';
 import kmsRoute from './kms';
