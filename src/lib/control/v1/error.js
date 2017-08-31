@@ -1,6 +1,4 @@
-'use strict';
-
-const STATUS_CODES = require('./status-codes');
+import STATUS_CODES from './status-codes';
 
 /**
  * Express middleware for error handling
@@ -10,11 +8,9 @@ const STATUS_CODES = require('./status-codes');
  * @param {function} next
  * @constructor
  */
-module.exports = (err, req, res, next) => { // eslint-disable-line no-unused-vars
+export default (err, req, res, next) => { // eslint-disable-line no-unused-vars
   Log.log('ERROR', err);
   const status = err.statusCode || STATUS_CODES.BAD_REQUEST;
-  const errors = [err.message];
 
-
-  res.status(status).json({error: {errors}});
+  res.status(status).json(err.message);
 };
