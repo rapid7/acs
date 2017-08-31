@@ -1,75 +1,73 @@
-'use strict';
-
-const AWS = require('aws-sdk');
-const crypto = require('crypto');
+import AWS from 'aws-sdk';
+import crypto from 'crypto';
 
 /**
  * Validates the KMS keys provided in the Config.
  *
- * @returns {Promise}
+ * @returns {Array}
  */
-const check = () => {
-  const regions = Config.get('aws:region');
-  const validatedRegions = Object.keys(regions).map((region) => {
-    const key = regions[region];
+export const check = async () => {
+  const keys = Config.get('aws');
+  const validatedKeys = keys.map(async ({region, key}) => {
     const KMS = new AWS.KMS({region});
+    let resp;
 
-    return new Promise((resolve, reject) => {
-      KMS.describeKey({KeyId: key}, (err, data) => {
-        if (err) {
-          resolve(false);
-        }
-
-        resolve({region, key});
-      });
-    });
-  });
-
-  return Promise.all(validatedRegions).then((regions) => {
-    const filtered = regions.filter((r) => !!r);
-
-    if (filtered.length === 0) {
-      throw new Error('No valid KMS keys');
+    try {
+      resp = (await KMS.describeKey({KeyId: key}).promise()).KeyMetadata;
+    } catch (ex) {
+      return false;
     }
 
-    return filtered;
+    return {
+      account: resp.AWSAccountId,
+      key: resp.KeyId,
+      region
+    };
   });
+
+  const keyData = await Promise.all(validatedKeys);
+
+  const filtered = keyData.filter((k) => !!k);
+
+  if (filtered.length === 0) {
+    throw new Error('No valid KMS keys');
+  }
+
+  return filtered;
 };
 
 /**
  * Encrypt the data by creating a new datakey and generate the ciphertext secret locally
  *
- * @param params
- * @return {Promise}
+ * @param {Object} params
+ * @return {Object}
  */
-const encrypt = (params) => {
-  const region = params.region;
+export const encrypt = async ({region, account, KeyId, Plaintext}) => {
   const kms = new AWS.KMS({region});
+  let dataKey;
 
-  return new Promise((resolve, reject) => {
-    kms.generateDataKey({
-      KeyId: params.KeyId,
-      KeySpec: 'AES_256'
-    }, (kmsError, kmsResponse) => {
-      if (kmsError) {
-        return reject(kmsError);
-      }
-      if (kmsResponse) {
-        const aesCipher = crypto.createCipher('aes-256-cbc', kmsResponse.Plaintext);
-        let ciphertext = aesCipher.update(params.Plaintext, 'utf8', 'base64');
+  try {
+    dataKey = await kms.generateDataKey({KeyId, KeySpec: 'AES_256'}).promise();
+  } catch (err) {
+    if (!err.hasOwnProperty('account')) {
+      err.account = account;
+    }
+    if (!err.hasOwnProperty('region')) {
+      err.region = region;
+    }
 
-        ciphertext += aesCipher.final('base64');
-        resolve({
-          region,
-          datakey: kmsResponse.CiphertextBlob.toString('base64'),
-          ciphertext: ciphertext.toString('base64')
-        });
-      }
-    });
-  });
-};
+    return err;
+  }
 
-module.exports = {
-  encrypt,
-  check
+  const aesCipher = crypto.createCipher('aes-256-cbc', dataKey.Plaintext);
+  let ciphertext = aesCipher.update(Plaintext, 'utf8', 'base64');
+
+  ciphertext += aesCipher.final('base64');
+
+  return {
+    region,
+    account,
+    datakey: dataKey.CiphertextBlob.toString('base64'),
+    ciphertext: ciphertext.toString('base64')
+  };
 };
