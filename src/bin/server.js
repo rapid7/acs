@@ -1,37 +1,41 @@
 #!/usr/bin/env node
-
-const args = require('yargs')
-  .usage('Usage: $0 [args]')
-  .option('c', {
-    alias: 'config',
-    describe: 'Load configuration from file',
-    type: 'string'
-  })
-  .option('colorize', {
-    describe: 'Colorize log output',
-    type: 'boolean',
-    default: false
-  })
-  .help('help')
-  .argv;
-
-const express = require('express');
-const HTTP = require('http');
-const Path = require('path');
-const Logger = require('../lib/logger');
-const BodyParser = require('body-parser');
-const CookieParser = require('cookie-parser');
-const Favicon = require('serve-favicon');
+import express from 'express';
+import http from 'http';
+import path from 'path';
+import Logger from '../lib/logger';
+import BodyParser from 'body-parser';
+import CookieParser from 'cookie-parser';
 
 const app = express();
-const server = HTTP.createServer(app);
+const server = http.createServer(app);
 
 // Load nconf into the global namespace
 global.Config = require('nconf').env()
-  .argv();
+  .argv({
+    config: {
+      alias: 'c',
+      description: 'Load configuration from file',
+      type: 'string'
+    },
+    colorize: {
+      describe: 'Colorize log output',
+      type: 'boolean',
+      default: false
+    },
+    help: {
+      alias: 'h',
+      describe: 'Help',
+      type: 'boolean'
+    }
+  }, 'Usage: $0 [args]');
 
-if (args.c) {
-  Config.file(Path.resolve(process.cwd(), args.c));
+if (Config.get('help') || Config.get('h')) {
+  process.stdout.write(Config.stores.argv.help());
+  process.exit();
+}
+
+if (Config.get('config')) {
+  Config.file(path.resolve(process.cwd(), Config.get('config')));
 }
 Config.defaults(require('../config/defaults.json'));
 
@@ -46,18 +50,7 @@ Config.set('vault:endpoint', `http${Config.get('vault:tls') ? 's' : ''}://${Conf
 
 // Add middleware for paring JSON requests
 app.use(BodyParser.json());
-
 app.use(CookieParser());
-
-// view engine setup
-app.set('views', Path.join(__dirname, '..', 'views'));
-app.set('view engine', 'ejs');
-
-app.use(express.static(Path.join(__dirname, '..', 'public')));
-
-// uncomment after placing your favicon in /public
-app.use(Favicon(Path.join(__dirname, '..', 'public', 'favicon.ico')));
-
 
 require('../lib/control/v1/')(app);
 
