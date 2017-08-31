@@ -1,11 +1,9 @@
 import React, {Component} from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import FontAwesome from 'react-fontawesome';
-import {ReactHintFactory} from 'react-hint'
-import 'react-hint/css/index.css';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap.css';
 import './Alert.css';
-
-const ReactHint = ReactHintFactory(React);
 
 class Alert extends Component {
   constructor(props) {
@@ -14,24 +12,32 @@ class Alert extends Component {
     this.state = {
       value: this.props.alert.text,
       copied: false,
-      header: ''
+      header: '',
+      visible: false
     };
 
-    this.toggleCustomHint = this.toggleCustomHint.bind(this);
+    this.timers = [];
+
+    this.afterVisibleChange = this.afterVisibleChange.bind(this);
+    this.onVisibleChange = this.onVisibleChange.bind(this);
   }
 
-  toggleCustomHint({target}) {
-    if (this.instance.state.target) {
-      target = null;
-    }
+  onVisibleChange(visible) {
+    this.setState({
+      visible
+    });
+  }
 
-    setTimeout(() => {
-      this.instance.setState({
-        target: null
+  afterVisibleChange() {
+    this.timers.push(setTimeout(() => {
+      this.setState({
+        visible: false
       });
-    }, 2500);
+    }, 2500));
+  }
 
-    this.instance.setState({target});
+  componentWillUnmount() {
+    this.timers.forEach((t) => clearTimeout(t));
   }
 
   generateAlertComponent(message) {
@@ -41,10 +47,22 @@ class Alert extends Component {
       case 'SUCCESS':
         return(
           <pre>
-            <ReactHint ref={(ref) => this.instance = ref} />
-            <CopyToClipboard text={this.state.value} onCopy={() => this.setState({copied: true})}>
-              <FontAwesome className="clipboard" name="clipboard" tag="button" border={true} data-rh="Copied" data-rh-at="left"
-                           onClick={this.toggleCustomHint} />
+              <CopyToClipboard text={this.state.value} onCopy={() => this.setState({copied: true})}>
+                <Tooltip
+                    visible={this.state.visible}
+                    animation="zoom"
+                    onVisibleChange={this.onVisibleChange}
+                    afterVisibleChange={this.afterVisibleChange}
+                    placement="left"
+                    trigger="click"
+                    overlay="Copied"
+                    align={{
+                      points: ['cr', 'cl']
+                    }}
+                >
+                  <FontAwesome className="clipboard" name="clipboard" tag="button" border={true}
+                    onClick={e => e.preventDefault()} />
+                </Tooltip>
             </CopyToClipboard>
             <div className="alert-wrapper">
               <div className="alert">{this.state.value}</div>

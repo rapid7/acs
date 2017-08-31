@@ -5,11 +5,11 @@
   "proxy": "http://localhost:3001/",
   "dependencies": {
     "axios": "^0.16.2",
+    "rc-tooltip": "^3.4.8",
     "react": "^15.6.1",
     "react-copy-to-clipboard": "^5.0.0",
     "react-dom": "^15.6.1",
     "react-fontawesome": "^1.6.1",
-    "react-hint": "^2.0.1",
     "react-redux": "^5.0.6",
     "react-scripts": "1.0.12",
     "react-tabs": "^1.1.0",

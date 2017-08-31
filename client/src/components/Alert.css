@@ -65,3 +65,7 @@
   -moz-border-radius: 0 4px;
   border-radius: 0 4px;
 }
+
+.rc-tooltip-inner {
+  min-height: 20px;
+}
