@@ -12,6 +12,8 @@
       "polyfill": false
     }],
     "transform-decorators-legacy",
-    "add-module-exports"
+    "add-module-exports",
+    "transform-async-generator-functions",
+    "transform-object-rest-spread"
   ]
 }
