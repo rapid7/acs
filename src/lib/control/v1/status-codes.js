@@ -1,9 +1,6 @@
-'use strict';
+import http from 'http';
 
-const HTTP = require('http');
-
-const STATUS_CODES =
-    module.exports = Object.assign({}, HTTP.STATUS_CODES);
+export const STATUS_CODES = Object.assign({}, http.STATUS_CODES);
 
 const M_REJECT_CHARS = /\W/g;
 const M_DELIMITERS = /\s/g;
