@@ -1,4 +1,4 @@
-import {generateCiphertext} from '../../vault/ciphertext';
+import {generateCiphertext} from '../../vault';
 
 export default async (req, res, next) => {
   const plaintext = new Buffer(req.body.secret).toString('base64');
