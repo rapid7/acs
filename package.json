@@ -7,7 +7,7 @@
     "dev": "npm start -c ./config/dev.json",
     "clean": "rm src/version.json; rimraf dist",
     "version": "./version.js",
-    "transpile": "npm run version && babel src --out-dir dist --copy-files",
+    "transpile": "npm run clean && npm run version && babel src --out-dir dist --copy-files",
     "lint": "eslint src/**/*.js test/**/*.js"
   },
   "repository": {
@@ -32,8 +32,7 @@
     "request": "^2.75.0",
     "request-promise": "^4.2.1",
     "serve-favicon": "^2.4.3",
-    "winston": "^2.2.0",
-    "yargs": "^8.0.2"
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
