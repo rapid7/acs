@@ -3,7 +3,11 @@ import rp from 'request-promise';
 const TOKEND_ENDPOINT = `http://${Config.get('tokend:host')}:${Config.get('tokend:port')}${Config.get('tokend:path')}`;
 const VAULT_ENDPOINT = Config.get('vault:endpoint');
 
-const getToken = () => rp({uri: TOKEND_ENDPOINT, json: true}).then((body) => body.token);
+const getToken = async () => {
+  const body = await rp({uri: TOKEND_ENDPOINT, json: true});
+
+  return body.token;
+};
 
 export const ciphertext = async (key, secret) => {
   const token = await getToken();
@@ -36,6 +40,16 @@ export const checkVault = async () => {
 
   try {
     await rp({uri: `${VAULT_ENDPOINT}/sys/health`, json: true});
+  } catch (err) {
+    return false;
+  }
+
+  return true;
+};
+
+export const checkTokend = async () => {
+  try {
+    await getToken();
   } catch (err) {
     return false;
   }

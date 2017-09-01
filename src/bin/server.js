@@ -5,12 +5,13 @@ import path from 'path';
 import Logger from '../lib/logger';
 import BodyParser from 'body-parser';
 import CookieParser from 'cookie-parser';
+import nconf from 'nconf';
 
 const app = express();
 const server = http.createServer(app);
 
 // Load nconf into the global namespace
-global.Config = require('nconf').env()
+global.Config = nconf.env()
   .argv({
     config: {
       alias: 'c',
