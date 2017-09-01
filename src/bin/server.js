@@ -51,6 +51,7 @@ Config.set('vault:endpoint', `http${Config.get('vault:tls') ? 's' : ''}://${Conf
 // Add middleware for paring JSON requests
 app.use(BodyParser.json());
 app.use(CookieParser());
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 require('../lib/control/v1/')(app);
 
