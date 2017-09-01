@@ -15,5 +15,8 @@
       "us-east-1": "",
       "eu-central-1": ""
     }
+  },
+  "service": {
+    "port": 3001
   }
 }
