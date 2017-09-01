@@ -1,37 +1,62 @@
-'use strict';
+import {encrypt} from '../../kms';
 
-const KMS = require('../../kms');
+export default async (req, res, next) => {
+  const plaintext = req.body.secret;
+  const submittedKeys = (
+    (req.body.keys instanceof Array) ?
+      req.body.keys :
+      [req.body.keys]
+  ).filter((k) => !!k);
 
-module.exports = () => (req, res, next) => {
-  const plaintext = req.body.kms_secret;
-
-  const keyObj = JSON.parse(req.body.kms_key);
-
-  if (!keyObj) {
-    return next(new Error('CMK not defined'));
+  if (!submittedKeys || submittedKeys.length === 0) {
+    return next(new Error('KMS key(s) not selected'));
   }
 
   if (!plaintext) {
-    return next(new Error('Plaintext not defined'));
+    return next(new Error('Plaintext not entered'));
   }
 
-  const region = keyObj.region;
-  const key = keyObj.key;
-  const params = {
-    KeyId: key,
-    Plaintext: plaintext,
-    region
-  };
+  // Deserialize form data
+  const keys = submittedKeys.map((body) => {
+    const {region, account, key} = JSON.parse(body);
 
-  return KMS.encrypt(params).then((data) => {
-    res.send(
-      '$tokend:\n' +
-      '  type: kms\n' +
-      '  resource: /v1/kms/decrypt\n' +
-      '  region: ' + data.region + '\n' +
-      '  ciphertext: "' + data.ciphertext + '"\n' +
-      '  datakey: "' + data.datakey + '"\n');
-  }).catch((err) => {
-    next(err);
+    return encrypt({
+      KeyId: key,
+      Plaintext: plaintext,
+      region,
+      account
+    });
   });
+  let data;
+
+  try {
+    data = await Promise.all(keys);
+  } catch (err) {
+    return next(err);
+  }
+
+  const resp = data.map((key) => {
+    if (key instanceof Error) {
+      return {
+        status: 'ERROR',
+        account: key.account,
+        region: key.region,
+        text: key.message
+      };
+    }
+
+    return {
+      status: 'SUCCESS',
+      account: key.account,
+      region: key.region,
+      text: `$tokend:
+  type: kms
+  resource: /v1/kms/decrypt
+  region: ${key.region}
+  ciphertext: "${key.ciphertext}"
+  datakey: "${key.datakey}"`
+    };
+  });
+
+  return res.json(resp);
 };

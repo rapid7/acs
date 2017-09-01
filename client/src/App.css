@@ -1,0 +1,15 @@
+a {
+  color: #00B7FF;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.selected {
+  color: #bbb !important;
+}
+
+p#tagline {
+  margin-top: 50px;
+}

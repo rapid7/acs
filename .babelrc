@@ -2,7 +2,7 @@
   "presets": [
     ["env", {
       "targets": {
-        "node": "4"
+        "node": "6"
       }
     }],
     "stage-2"
@@ -12,6 +12,8 @@
       "polyfill": false
     }],
     "transform-decorators-legacy",
-    "add-module-exports"
+    "add-module-exports",
+    "transform-async-generator-functions",
+    "transform-object-rest-spread"
   ]
 }

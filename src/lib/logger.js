@@ -1,7 +1,5 @@
-'use strict';
-
-const Winston = require('winston');
-const expressWinston = require('express-winston');
+import Winston from 'winston';
+import expressWinston from 'express-winston';
 
 /**
  * Create a logger instance
@@ -9,7 +7,7 @@ const expressWinston = require('express-winston');
  * @returns {Winston.Logger}
  * @constructor
  */
-function Logger(level) {
+const attach = (level) => {
   const logLevel = level.toUpperCase() || 'INFO';
 
   const javaLogLevels = {
@@ -29,7 +27,7 @@ function Logger(level) {
     }
   };
 
-  const logger = new Winston.Logger({
+  return new Winston.Logger({
     level: logLevel,
     levels: javaLogLevels.levels,
     colors: javaLogLevels.colors,
@@ -42,9 +40,7 @@ function Logger(level) {
       })
     ]
   });
-
-  return logger;
-}
+};
 
 /**
  * Generates middleware for Express to log incoming requests
@@ -53,7 +49,7 @@ function Logger(level) {
  * @returns {expressWinston.logger}
  * @constructor
  */
-function RequestLogger(logger, level) {
+const requests = (logger, level) => {
   const logLevel = level.toUpperCase() || 'INFO';
 
   return expressWinston.logger({
@@ -63,9 +59,11 @@ function RequestLogger(logger, level) {
     level: logLevel,
     baseMeta: {sourceName: 'request'},
     meta: true,
-    bodyBlacklist: ['vault_secret', 'kms_secret', 'kms_key']
+    bodyBlacklist: ['secret', 'keys']
   });
-}
+};
 
-exports.attach = Logger;
-exports.requests = RequestLogger;
+export default {
+  attach,
+  requests
+};
