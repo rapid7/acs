@@ -1,7 +1,11 @@
 import {encrypt} from '../../vault';
 
 export default async (req, res, next) => {
-  const plaintext = new Buffer(req.body.secret).toString('base64');
+  if (!req.body.secret) {
+    return next(new Error('Plaintext not entered'));
+  }
+
+  const plaintext = Buffer.from(req.body.secret, 'utf-8').toString('base64');
   const key = Config.get('vault:transit_key');
   let ciphertext;
 
