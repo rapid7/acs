@@ -4,6 +4,8 @@
   "description": "Automatic Ciphertext Service",
   "scripts": {
     "start": "nodemon ./src/bin/server.js --exec babel-node --",
+    "client": "npm run --prefix client --",
+    "client-clean": "rimraf client/build",
     "dev": "npm start -c ./config/dev.json",
     "clean": "rm src/version.json; rimraf dist",
     "version": "./version.js",
@@ -40,14 +42,11 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-stage-2": "^6.24.1",
-    "chai": "^3.5.0",
     "eslint": "^4.5.0",
     "eslint-config-rapid7": "^2.11.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-react": "^7.3.0",
-    "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
-    "rimraf": "^2.6.1",
-    "supertest": "^3.0.0"
+    "rimraf": "^2.6.1"
   }
 }
