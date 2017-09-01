@@ -1,4 +1,4 @@
-import {generateCiphertext} from '../../vault';
+import {encrypt} from '../../vault';
 
 export default async (req, res, next) => {
   const plaintext = new Buffer(req.body.secret).toString('base64');
@@ -6,7 +6,7 @@ export default async (req, res, next) => {
   let ciphertext;
 
   try {
-    ciphertext = await generateCiphertext(key, plaintext);
+    ciphertext = await encrypt(key, plaintext);
   } catch (err) {
     return next(err);
   }

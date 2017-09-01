@@ -1,5 +1,5 @@
 import {check} from '../../kms';
-import {checkVault} from '../../vault';
+import {checkVault, checkTokend} from '../../vault';
 import Err from './error';
 import vaultRoute from './vault';
 import kmsRoute from './kms';
@@ -32,7 +32,7 @@ export default (app) => {
       backends.kms = false;
     }
 
-    backends.vault = await checkVault();
+    backends.vault = await checkVault() && await checkTokend();
 
     res.json({
       title: 'ACS',
