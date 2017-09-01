@@ -9,7 +9,7 @@ export default async (req, res, next) => {
   ).filter((k) => !!k);
 
   if (!submittedKeys || submittedKeys.length === 0) {
-    return next(new Error('CMK(s) not selected'));
+    return next(new Error('KMS key(s) not selected'));
   }
 
   if (!plaintext) {
