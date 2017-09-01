@@ -10,12 +10,18 @@
     "json": false,
     "requests": false
   },
-  "aws": {
-    "region": {
-      "us-east-1": "",
-      "eu-central-1": ""
+  "aws": [
+    {
+      "account": "",
+      "region": "",
+      "key": ""
+    },
+    {
+      "account": "",
+      "region": "",
+      "key": ""
     }
-  },
+  ],
   "service": {
     "port": 3001
   }
