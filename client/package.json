@@ -7,6 +7,7 @@
     "url": "git+https://github.com/rapid7/acs.git"
   },
   "license": "MIT",
+  "homepage": ".",
   "bugs": {
     "url": "https://github.com/rapid7/acs/issues"
   },
