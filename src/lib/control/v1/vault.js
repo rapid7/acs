@@ -1,12 +1,12 @@
-import {generateCiphertext} from '../../vault';
+import {ciphertext} from '../../vault';
 
 export default async (req, res, next) => {
   const plaintext = new Buffer(req.body.secret).toString('base64');
   const key = Config.get('vault:transit_key');
-  let ciphertext;
+  let encryptedCiphertext;
 
   try {
-    ciphertext = await generateCiphertext(key, plaintext);
+    encryptedCiphertext = await ciphertext(key, plaintext);
   } catch (err) {
     return next(err);
   }
@@ -18,6 +18,6 @@ export default async (req, res, next) => {
   type: transit
   resource: /v1/transit/default/decrypt
   key: ${Config.get('vault:transit_key')}
-  ciphertext: "${ciphertext}"`
+  ciphertext: "${encryptedCiphertext}"`
   });
 };

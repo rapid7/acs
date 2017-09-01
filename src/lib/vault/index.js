@@ -5,7 +5,7 @@ const VAULT_ENDPOINT = Config.get('vault:endpoint');
 
 const getToken = () => rp({uri: TOKEND_ENDPOINT, json: true}).then((body) => body.token);
 
-export const generateCiphertext = async (key, secret) => {
+export const ciphertext = async (key, secret) => {
   const token = await getToken();
 
   const options = {
