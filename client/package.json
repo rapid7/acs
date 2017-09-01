@@ -1,7 +1,15 @@
 {
-  "name": "client",
+  "name": "acs-client",
+  "description": "Automatic Ciphertext Service Frontend",
   "version": "0.1.0",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rapid7/acs.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rapid7/acs/issues"
+  },
   "proxy": "http://localhost:3001/",
   "dependencies": {
     "axios": "^0.16.2",
