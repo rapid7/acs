@@ -2,7 +2,14 @@ import {encrypt} from '../../kms';
 
 export default async (req, res, next) => {
   const plaintext = req.body.secret;
-  const keyObj = JSON.parse(req.body.kms_key);
+  let keyObj;
+
+  try {
+    keyObj = JSON.parse(req.body.key);
+  } catch (err) {
+    console.log(err);
+    keyObj = null;
+  }
 
   if (!keyObj) {
     return next(new Error('CMK not defined'));
@@ -25,21 +32,25 @@ export default async (req, res, next) => {
   try {
     data = await encrypt(params);
   } catch (err) {
-    return {
-      status: 'ERROR',
-      region: key.region,
-      text: err.message
-    };
+    return next(err);
   }
 
-  return res.json({
-    status: 'SUCCESS',
-    region: key.region,
-    text: `$tokend:
+  const resp = {
+    region: data.region
+  };
+
+  if (data instanceof Error) {
+    resp.status = 'ERROR';
+    resp.text = data.message;
+  } else {
+    resp.status = 'SUCCESS';
+    resp.text = `$tokend:
 type: kms
 resource: /v1/kms/decrypt
-region: ${key.region}
-ciphertext: "${key.ciphertext}"
-datakey: "${key.datakey}"`
-  });
+region: ${data.region}
+ciphertext: "${data.ciphertext}"
+datakey: "${data.datakey}"`;
+  }
+
+  return res.json(resp);
 };
