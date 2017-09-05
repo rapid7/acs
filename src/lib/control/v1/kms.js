@@ -15,6 +15,10 @@ export default async (req, res, next) => {
     return next(new Error('CMK not defined'));
   }
 
+  if (!keyObj.hasOwnProperty('region') || !keyObj.hasOwnProperty('key')) {
+    return next(new Error('Invalid key format'));
+  }
+
   if (!plaintext) {
     return next(new Error('Plaintext not entered'));
   }
