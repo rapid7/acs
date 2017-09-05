@@ -63,6 +63,12 @@ server.on('error', (err) => {
   Log.log('ERROR', err);
 });
 
+// 5 second request timeout
+server.setTimeout(5000, (socket) => {
+  Log.log('ERROR', 'The request timed out');
+  socket.destroy();
+});
+
 server.listen(port, host, () => {
   Log.log('INFO', `Listening on ${host}:${port}`);
 });
