@@ -1,21 +1,27 @@
-'use strict';
+import {encrypt} from '../../vault';
 
-const encryptCipher = require('../../vault/ciphertext');
+export default async (req, res, next) => {
+  if (!req.body.secret) {
+    return next(new Error('Plaintext not entered'));
+  }
 
-module.exports = function Encrypt() {
-  return (req, res, next) => {
-    const plaintext = new Buffer(req.body.vault_secret).toString('base64');
-    const key = Config.get('vault:transit_key');
+  const plaintext = Buffer.from(req.body.secret, 'utf-8').toString('base64');
+  const key = Config.get('vault:transit_key');
+  let ciphertext;
 
-    encryptCipher(key, plaintext).then((ciphertext) => {
-      Log.log('INFO', 'Vault: Successfully encrypted secret.');
-      res.send('$tokend:\n' +
-        '  type: transit\n' +
-        '  resource: /v1/transit/default/decrypt\n' +
-        '  key: ' + Config.get('vault:transit_key') + '\n' +
-        '  ciphertext: "' + ciphertext + '"\n');
-    }).catch((err) => {
-      next(err);
-    });
-  };
+  try {
+    ciphertext = await encrypt(key, plaintext);
+  } catch (err) {
+    return next(err);
+  }
+
+  Log.log('INFO', 'Vault: Successfully encrypted secret.');
+  res.json({
+    status: 'SUCCESS',
+    text: `$tokend:
+  type: transit
+  resource: /v1/transit/default/decrypt
+  key: ${Config.get('vault:transit_key')}
+  ciphertext: "${ciphertext}"`
+  });
 };

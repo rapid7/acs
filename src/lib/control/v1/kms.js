@@ -1,18 +1,26 @@
-'use strict';
+import {encrypt} from '../../kms';
 
-const KMS = require('../../kms');
+export default async (req, res, next) => {
+  const plaintext = req.body.secret;
+  let keyObj;
 
-module.exports = () => (req, res, next) => {
-  const plaintext = req.body.kms_secret;
-
-  const keyObj = JSON.parse(req.body.kms_key);
+  try {
+    keyObj = JSON.parse(req.body.key);
+  } catch (err) {
+    console.log(err);
+    keyObj = null;
+  }
 
   if (!keyObj) {
     return next(new Error('CMK not defined'));
   }
 
+  if (!keyObj.hasOwnProperty('region') || !keyObj.hasOwnProperty('key')) {
+    return next(new Error('Invalid key format'));
+  }
+
   if (!plaintext) {
-    return next(new Error('Plaintext not defined'));
+    return next(new Error('Plaintext not entered'));
   }
 
   const region = keyObj.region;
@@ -23,15 +31,30 @@ module.exports = () => (req, res, next) => {
     region
   };
 
-  return KMS.encrypt(params).then((data) => {
-    res.send(
-      '$tokend:\n' +
-      '  type: kms\n' +
-      '  resource: /v1/kms/decrypt\n' +
-      '  region: ' + data.region + '\n' +
-      '  ciphertext: "' + data.ciphertext + '"\n' +
-      '  datakey: "' + data.datakey + '"\n');
-  }).catch((err) => {
-    next(err);
-  });
+  let data;
+
+  try {
+    data = await encrypt(params);
+  } catch (err) {
+    return next(err);
+  }
+
+  const resp = {
+    region: data.region
+  };
+
+  if (data instanceof Error) {
+    resp.status = 'ERROR';
+    resp.text = data.message;
+  } else {
+    resp.status = 'SUCCESS';
+    resp.text = `$tokend:
+type: kms
+resource: /v1/kms/decrypt
+region: ${data.region}
+ciphertext: "${data.ciphertext}"
+datakey: "${data.datakey}"`;
+  }
+
+  return res.json(resp);
 };
