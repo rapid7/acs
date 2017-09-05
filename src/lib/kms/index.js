@@ -7,22 +7,26 @@ import crypto from 'crypto';
  * @returns {Promise<Array>}
  */
 export const check = async () => {
-  const regions = Config.get('aws:region');
-  const validatedRegions = Object.keys(regions).map(async (region) => {
-    const key = regions[region];
+  const keys = Config.get('aws');
+  const validatedKeys = keys.map(async ({region, key}) => {
     const KMS = new AWS.KMS({region});
+    let resp;
 
     try {
-      await KMS.describeKey({KeyId: key}).promise();
+      resp = (await KMS.describeKey({KeyId: key}).promise()).KeyMetadata;
     } catch (err) {
       return false;
     }
 
-    return {region, key};
+    return {
+      account: resp.AWSAccountId,
+      key: resp.KeyId,
+      region
+    };
   });
 
-  const regionData = await Promise.all(validatedRegions);
-  const filtered = regionData.filter((r) => !!r);
+  const keyData = await Promise.all(validatedKeys);
+  const filtered = keyData.filter((k) => !!k);
 
   if (filtered.length === 0) {
     throw new Error('No valid KMS keys');
@@ -40,13 +44,17 @@ export const check = async () => {
  * @param {string} params.Plaintext
  * @return {Promise<Object>}
  */
-export const encrypt = async ({region, KeyId, Plaintext}) => {
+export const encrypt = async ({region, account, KeyId, Plaintext}) => {
   const kms = new AWS.KMS({region});
   let dataKey;
 
   try {
     dataKey = await kms.generateDataKey({KeyId, KeySpec: 'AES_256'}).promise();
   } catch (err) {
+    if (!err.hasOwnProperty('account')) {
+      err.account = account;
+    }
+
     if (!err.hasOwnProperty('region')) {
       err.region = region;
     }
@@ -61,6 +69,7 @@ export const encrypt = async ({region, KeyId, Plaintext}) => {
 
   return {
     region,
+    account,
     datakey: dataKey.CiphertextBlob.toString('base64'),
     ciphertext: ciphertext.toString('base64')
   };
