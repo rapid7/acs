@@ -28,8 +28,6 @@ export default async (req, res, next) => {
     }
     const {region, account, key} = parsedBody;
 
-    console.log(parsedBody);
-
     if (!region || !account || !key) {
       return invalidKeyError;
     }
