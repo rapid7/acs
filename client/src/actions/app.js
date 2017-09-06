@@ -14,17 +14,15 @@ const fetchIndexFailure = createAction(FETCH_APP_FAILURE);
 export const fetchApp = () => async (dispatch) => {
   dispatch(fetchIndexRequest());
 
-  let response;
-
   try {
-    response = await axios.get('v1/index');
+    const {data} = await axios.get('v1/index');
+
+    return dispatch(fetchIndexSuccess(data));
   } catch (err) {
     const reducedAction = (err instanceof Error) ? fetchIndexFailure(err) : fetchIndexFailure(err.response);
 
     return dispatch(reducedAction);
   }
-
-  return dispatch(fetchIndexSuccess(response.data));
 };
 
 export const resetStoreAtKey = (key, initialState) => (dispatch) => {
