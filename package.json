@@ -1,6 +1,6 @@
 {
   "name": "acs",
-  "version": "2.2.1",
+  "version": "3.0.0",
   "description": "Automatic Ciphertext Service",
   "scripts": {
     "start": "nodemon ./src/bin/server.js --exec babel-node --",
