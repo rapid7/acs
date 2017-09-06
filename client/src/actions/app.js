@@ -17,7 +17,7 @@ export const fetchApp = () => async (dispatch) => {
   let response;
 
   try {
-    response = await axios.get('/v1/index');
+    response = await axios.get('v1/index');
   } catch (err) {
     const reducedAction = (err instanceof Error) ? fetchIndexFailure(err) : fetchIndexFailure(err.response);
 

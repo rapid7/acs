@@ -9,7 +9,7 @@ const submitSecretRequest = createAction(SUBMIT_KMS_SECRET_REQUEST);
 const submitSecretSuccess = createAction(SUBMIT_KMS_SECRET_SUCCESS);
 const submitSecretFailure = createAction(SUBMIT_KMS_SECRET_FAILURE);
 
-export const requestKmsSecret = requestSecret('/v1/kms', submitSecretRequest, submitSecretSuccess, submitSecretFailure);
+export const requestKmsSecret = requestSecret('v1/kms', submitSecretRequest, submitSecretSuccess, submitSecretFailure);
 
 export const KMS_INITIAL_STATE = {
   failure: {},
