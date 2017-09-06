@@ -1,0 +1,37 @@
+{
+  "name": "acs-client",
+  "description": "Automatic Ciphertext Service Frontend",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rapid7/acs.git"
+  },
+  "license": "MIT",
+  "homepage": ".",
+  "bugs": {
+    "url": "https://github.com/rapid7/acs/issues"
+  },
+  "proxy": "http://localhost:3001/",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "rc-tooltip": "^3.4.8",
+    "react": "^15.6.1",
+    "react-copy-to-clipboard": "^5.0.0",
+    "react-dom": "^15.6.1",
+    "react-fontawesome": "^1.6.1",
+    "react-redux": "^5.0.6",
+    "react-scripts": "1.0.12",
+    "react-tabs": "^1.1.0",
+    "redux": "^3.7.2",
+    "redux-actions": "^2.2.1",
+    "redux-devtools": "^3.4.0",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-thunk": "^2.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

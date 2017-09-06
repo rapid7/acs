@@ -1,3 +1,4 @@
+import path from 'path';
 import {check} from '../../kms';
 import {checkVault, checkTokend} from '../../vault';
 import Err from './error';
@@ -13,6 +14,10 @@ try {
 }
 
 export default (app) => {
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', '..', '..', 'public', 'index.html'));
+  });
+
   const backends = {};
 
   app.get('/v1/index', async (req, res, next) => {

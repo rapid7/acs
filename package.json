@@ -4,6 +4,8 @@
   "description": "Automatic Ciphertext Service",
   "scripts": {
     "start": "nodemon ./src/bin/server.js --exec babel-node --",
+    "client": "npm run --prefix client --",
+    "client-clean": "rimraf client/build",
     "dev": "npm start -c ./config/dev.json",
     "clean": "rm src/version.json; rimraf dist",
     "version": "./version.js",
