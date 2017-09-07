@@ -44,6 +44,7 @@ class VaultTabPanel extends Component {
           <div className="six columns">
             <form id="vault_form" name="vault_form" onSubmit={this.handleSubmit}>
               <textarea
+                placeholder="Enter secret here."
                 className="u-full-width"
                 id="vault_secret"
                 name="secret"
