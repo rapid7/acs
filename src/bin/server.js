@@ -65,7 +65,7 @@ server.on('error', (err) => {
 });
 
 // 5 second request timeout
-server.setTimeout(5000, (socket) => {
+server.setTimeout(20000, (socket) => {
   Log.log('ERROR', 'The request timed out');
   socket.destroy();
 });

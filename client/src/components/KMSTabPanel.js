@@ -88,6 +88,7 @@ class KMSTabPanel extends Component {
                 {keys}
               </select>
               <textarea
+                placeholder="Enter secret here."
                 className="u-full-width"
                 id="kms_secret"
                 name="secret"
