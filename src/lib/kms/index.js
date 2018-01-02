@@ -8,7 +8,7 @@ import crypto from 'crypto';
  */
 export const check = async () => {
   const keys = Config.get('aws');
-  const validatedKeys = keys.map(async ({region, key}) => {
+  const validatedKeys = keys.map(async ({region, key, name}) => {
     const KMS = new AWS.KMS({region});
     let resp;
 
@@ -21,7 +21,8 @@ export const check = async () => {
     return {
       account: resp.AWSAccountId,
       key: resp.KeyId,
-      region
+      region,
+      ...(name ? {name} : {})
     };
   });
 
