@@ -63,9 +63,11 @@ class KMSTabPanel extends Component {
         selectedValues.push(value);
       }
 
+      const display = (r.name) ? `${r.name} (${r.account} - ${r.region})` : `${r.account} - ${r.region}`;
+
       keys.push(
         <option key={r.key} value={value}>
-          {`${r.account} - ${r.region}`}
+          {display}
         </option>
       );
     });
