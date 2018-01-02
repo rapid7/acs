@@ -63,9 +63,11 @@ class KMSTabPanel extends Component {
         selectedValues.push(value);
       }
 
+      const display = (r.name) ? `${r.name} (${r.account} - ${r.region})` : `${r.account} - ${r.region}`;
+
       keys.push(
         <option key={r.key} value={value}>
-          {`${r.account} - ${r.region}`}
+          {display}
         </option>
       );
     });
@@ -75,7 +77,7 @@ class KMSTabPanel extends Component {
         <div className="row">
           <div className="six columns">
             <form id="kms_form" name="kms_form" onSubmit={this.handleSubmit}>
-              <p>Select the region in which to encrypt your secret:</p>
+              <p>Select the key with which to encrypt your secret:</p>
               <select
                 multiple
                 className="u-full-width"
