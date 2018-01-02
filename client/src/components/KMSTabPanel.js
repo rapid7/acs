@@ -77,7 +77,7 @@ class KMSTabPanel extends Component {
         <div className="row">
           <div className="six columns">
             <form id="kms_form" name="kms_form" onSubmit={this.handleSubmit}>
-              <p>Select the region in which to encrypt your secret:</p>
+              <p>Select the key with which to encrypt your secret:</p>
               <select
                 multiple
                 className="u-full-width"
