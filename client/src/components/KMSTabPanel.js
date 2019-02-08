@@ -18,6 +18,12 @@ class KMSTabPanel extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    if (this.state.keys.length === 1) {
+      this.setState({'selectedKeys': JSON.stringify(this.state.keys[0])})
+    }
+  }
+
   handleInputChange(event) {
     const target = event.target;
     const name = target.name;

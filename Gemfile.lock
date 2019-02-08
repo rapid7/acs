@@ -109,7 +109,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.10.1)
       faraday (>= 0.7.4, < 1.0)
-    ffi (1.9.18)
+    ffi (1.10.0)
     ffi-yajl (2.3.0)
       libyajl2 (~> 1.2)
     fpm (1.8.1)
@@ -184,7 +184,7 @@ GEM
     plist (3.1.0)
     proxifier (1.0.3)
     public_suffix (2.0.5)
-    rack (1.6.5)
+    rack (1.6.11)
     rake (10.5.0)
     retryable (2.0.4)
     ridley (4.6.1)
@@ -263,10 +263,12 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (~> 2.2)
   builderator (~> 1.0)
+  ffi (>= 1.9.24)
   fpm (~> 1.6)
   mime-types (~> 3.1)
   octokit (~> 4.0)
+  rack (>= 1.6.11)
   rake (~> 10.5)
 
 BUNDLED WITH
-   1.13.6
+   2.0.1
