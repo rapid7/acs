@@ -13,7 +13,7 @@
   },
   "proxy": "http://localhost:3001/",
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.21.1",
     "rc-tooltip": "^3.4.8",
     "react": "^15.6.1",
     "react-copy-to-clipboard": "^5.0.0",
